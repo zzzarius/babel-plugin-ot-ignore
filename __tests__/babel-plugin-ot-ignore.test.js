@@ -93,6 +93,26 @@ describe('babel-plugin-ot-ignore defaults', () => {
 
     expect(transform(input)).toBe(plainTransform(expectedOutput));
   });
+
+  test('Check if className expressions are working', () => {
+    const input = `
+      const MyComponent = () => (
+        <div>
+          <img src="http://placekitten.com/200/300" className={\`\${''}\`} />
+        </div>
+      );
+    `;
+
+    const expectedOutput = `
+      const MyComponent = () => (
+        <div>
+          <img src="http://placekitten.com/200/300" className={\`optanon-category-C0001 \${''}\`} data-ot-ignore="" />
+        </div>
+      );
+    `;
+
+    expect(transform(input)).toBe(plainTransform(expectedOutput));
+  });
 });
 
 describe('babel-plugin-ot-ignore srcValueRegex', () => {

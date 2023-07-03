@@ -25,7 +25,10 @@ module.exports = declare((api, options) => {
 
         const hasNoSrc =
           openingElement.attributes.findIndex(
-            (attr) => attr.name && attr.name.name === 'src' && testSrcValueRegex(attr.value.value)
+            (attr) =>
+              attr.name &&
+              attr.name.name === 'src' &&
+              testSrcValueRegex(attr.value.value)
           ) === -1;
         if (hasNoSrc) {
           return;
@@ -68,13 +71,23 @@ module.exports = declare((api, options) => {
 
         // <img src="..." className />
         if (!existingClassAttribute.value) {
-          existingClassAttribute.value = t.stringLiteral(
-            otClassName
-          );
+          existingClassAttribute.value = t.stringLiteral(otClassName);
           return;
         }
 
-        const existingClassAttributeValue = existingClassAttribute.value.value;
+        if (t.isJSXExpressionContainer(existingClassAttribute.value)) {
+          existingClassAttribute.value.expression.quasis.at(0).value.raw = [
+            otClassName,
+            existingClassAttribute.value.expression.quasis.at(0).value.raw,
+          ].join(' ');
+          existingClassAttribute.value.expression.quasis.at(0).value.cooked = [
+            otClassName,
+            existingClassAttribute.value.expression.quasis.at(0).value.cooked,
+          ].join(' ');
+          return;
+        }
+
+        const existingClassAttributeValue = existingClassAttribute.value?.value;
         const hasOptanonClass =
           existingClassAttributeValue.indexOf(otClassName) !== -1;
         if (hasOptanonClass) {

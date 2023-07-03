@@ -66,7 +66,7 @@ module.exports = declare((api, options) => {
           (attr) => attr.name && attr.name.name === 'className'
         );
 
-        // <imd src="..." className />
+        // <img src="..." className />
         if (!existingClassAttribute.value) {
           existingClassAttribute.value = t.stringLiteral(
             otClassName

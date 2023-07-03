@@ -1,5 +1,5 @@
 # babel-plugin-ot-ignore
-A Babel plugin thad adds configurable `data-ot-ignore=''` and `className='optanon-category-C0001'`
+A Babel plugin that adds configurable `data-ot-ignore=''` and `className='optanon-category-C0001'`
 to all React elements (script, img, iframe, embed...) which have `src` attribute.
 
 ## Installation

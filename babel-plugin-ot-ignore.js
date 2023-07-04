@@ -24,21 +24,17 @@ module.exports = declare((api, options) => {
           return regexp.test(value);
         }
 
-        const hasNoSrc =
-          openingElement.attributes.findIndex(
-            (attr) =>
-              attr.name &&
-              attr.name.name === 'src' &&
-              testSrcValueRegex(attr.value.value)
-          ) === -1;
+        const hasNoSrc = !openingElement.attributes?.some(
+          (attr) =>
+            attr.name?.name === 'src' && testSrcValueRegex(attr.value?.value)
+        );
         if (hasNoSrc) {
           return;
         }
 
-        const alreadyHasOt =
-          openingElement.attributes.findIndex(
-            (attr) => attr.name && attr.name.name === otDataAttribute
-          ) !== -1;
+        const alreadyHasOt = openingElement.attributes?.some(
+          (attr) => attr.name?.name === otDataAttribute
+        );
 
         if (otDataAttribute && !alreadyHasOt) {
           const additionalAttribute = t.jsxAttribute(
@@ -52,22 +48,21 @@ module.exports = declare((api, options) => {
           return;
         }
 
-        const hasNoOtherClasses =
-          openingElement.attributes.findIndex(
-            (attr) => attr.name && attr.name.name === 'className'
-          ) === -1;
+        const hasNoOtherClasses = !openingElement.attributes?.some(
+          (attr) => attr.name?.name === 'className'
+        );
 
         if (hasNoOtherClasses) {
           const additionalAttribute = t.jsxAttribute(
             t.jsxIdentifier('className'),
             t.stringLiteral(otClassName)
           );
-          openingElement.attributes.push(additionalAttribute);
+          openingElement.attributes?.push(additionalAttribute);
           return;
         }
 
         const existingClassAttribute = openingElement.attributes.find(
-          (attr) => attr.name && attr.name.name === 'className'
+          (attr) => attr.name?.name === 'className'
         );
 
         // <img src="..." className />
@@ -77,20 +72,24 @@ module.exports = declare((api, options) => {
         }
 
         if (t.isJSXExpressionContainer(existingClassAttribute.value)) {
-          existingClassAttribute.value.expression.quasis.at(0).value.raw = [
+          const quasis = existingClassAttribute.value?.expression?.quasis;
+          if (!Array.isArray(quasis)) {
+            existingClassAttribute.value = t.stringLiteral(otClassName);
+            return;
+          }
+          quasis.at(0).value.raw = [otClassName, quasis.at(0).value.raw].join(
+            ' '
+          );
+          quasis.at(0).value.cooked = [
             otClassName,
-            existingClassAttribute.value.expression.quasis.at(0).value.raw,
-          ].join(' ');
-          existingClassAttribute.value.expression.quasis.at(0).value.cooked = [
-            otClassName,
-            existingClassAttribute.value.expression.quasis.at(0).value.cooked,
+            quasis.at(0).value.cooked,
           ].join(' ');
           return;
         }
 
         const existingClassAttributeValue = existingClassAttribute.value?.value;
         const hasOptanonClass =
-          existingClassAttributeValue.indexOf(otClassName) !== -1;
+          existingClassAttributeValue?.includes(otClassName);
         if (hasOptanonClass) {
           return;
         }

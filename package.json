@@ -15,16 +15,24 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/zzzarius/babel-plugin-ot-ignore.git",
+    "url": "https://github.com/zzzarius/babel-plugin-ot-ignore.git"
   },
   "main": "./babel-plugin-ot-ignore.js",
   "scripts": {
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "lint": "eslint .",
+    "lint-fix": "eslint . --fix"
   },
   "author": "Darius Zivertas",
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "^29.5.2",
+    "eslint": "^8.44.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jest": "^27.2.2",
+    "eslint-plugin-n": "^16.0.1",
+    "eslint-plugin-promise": "^6.1.1",
     "jest": "^29.5.0"
   },
   "peerDependencies": {

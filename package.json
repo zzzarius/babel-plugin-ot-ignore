@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-ot-ignore",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A Babel plugin thad adds configurable data-ot-ignore and className='optanon-category-C0001' to all React elements which have src attribute",
   "keywords": [
     "babel",
@@ -25,6 +25,9 @@
   },
   "author": "Darius Zivertas",
   "license": "MIT",
+  "dependencies": {
+    "@babel/helper-plugin-utils": "^7.22.5"
+  },
   "devDependencies": {
     "@types/jest": "^29.5.2",
     "eslint": "^8.44.0",
@@ -37,7 +40,6 @@
   },
   "peerDependencies": {
     "@babel/core": "^7.22.5",
-    "@babel/helper-plugin-utils": "^7.22.5",
     "@babel/preset-react": "^7.22.5",
     "react": "^18.2.0"
   }

@@ -20,7 +20,8 @@ module.exports = declare((api, options) => {
           if (!srcValueRegex) {
             return true;
           }
-          return srcValueRegex.test(value);
+          const regexp = new RegExp(srcValueRegex);
+          return regexp.test(value);
         }
 
         const hasNoSrc =

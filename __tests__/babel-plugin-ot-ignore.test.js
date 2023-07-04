@@ -152,6 +152,43 @@ describe('babel-plugin-ot-ignore srcValueRegex', () => {
   });
 });
 
+describe('babel-plugin-ot-ignore srcValueRegex as string', () => {
+  const transformRegex = (code) =>
+    t(code, {
+      plugins: [
+        [
+          otIgnore,
+          {
+            srcValueRegex: '^http://placekitten.com',
+          },
+        ],
+      ],
+      presets: ['@babel/preset-react'],
+      configFile: false,
+    }).code.trim();
+  test('Should add ot attributes if regex matches', () => {
+    const input = `
+      const MyComponent = () => (
+        <div>
+          <img src="http://placekitten.com/200/300" />
+          <img src="http://example.com" />
+        </div>
+      );
+    `;
+
+    const expectedOutput = `
+      const MyComponent = () => (
+        <div>
+          <img src="http://placekitten.com/200/300" data-ot-ignore="" className="optanon-category-C0001" />
+          <img src="http://example.com" />
+        </div>
+      );
+    `;
+
+    expect(transformRegex(input)).toBe(plainTransform(expectedOutput));
+  });
+});
+
 describe('babel-plugin-ot-ignore otDataAttribute', () => {
   const transformDataAttribute = (code) =>
     t(code, {

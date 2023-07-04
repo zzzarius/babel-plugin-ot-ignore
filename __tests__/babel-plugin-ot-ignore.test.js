@@ -98,7 +98,7 @@ describe('babel-plugin-ot-ignore defaults', () => {
     const input = `
       const MyComponent = () => (
         <div>
-          <img src="http://placekitten.com/200/300" className={\`\${''}\`} />
+          <img src="http://placekitten.com/200/300" className="optanon-category-C0001" data-ot-ignore="" />
         </div>
       );
     `;
@@ -106,7 +106,7 @@ describe('babel-plugin-ot-ignore defaults', () => {
     const expectedOutput = `
       const MyComponent = () => (
         <div>
-          <img src="http://placekitten.com/200/300" className={\`optanon-category-C0001 \${''}\`} data-ot-ignore="" />
+          <img src="http://placekitten.com/200/300" className="optanon-category-C0001" data-ot-ignore="" />
         </div>
       );
     `;
@@ -203,7 +203,7 @@ describe('babel-plugin-ot-ignore otClassName', () => {
       presets: ['@babel/preset-react'],
       configFile: false,
     }).code.trim();
-  test('Should add ot attributes if regex matches', () => {
+  test('Custom class name', () => {
     const input = `
       const MyComponent = () => (
         <div>
@@ -218,6 +218,43 @@ describe('babel-plugin-ot-ignore otClassName', () => {
         <div>
           <img src="http://placekitten.com/200/300" data-ot-ignore="" className="my-custom-class" />
           <img src="http://example.com" data-ot-ignore="" className="my-custom-class" />
+        </div>
+      );
+    `;
+
+    expect(transformClassName(input)).toBe(plainTransform(expectedOutput));
+  });
+});
+
+describe('babel-plugin-ot-ignore opt out adding class', () => {
+  const transformClassName = (code) =>
+    t(code, {
+      plugins: [
+        [
+          otIgnore,
+          {
+            otClassName: false,
+          },
+        ],
+      ],
+      presets: ['@babel/preset-react'],
+      configFile: false,
+    }).code.trim();
+  test('Should not add class if it`s disabled', () => {
+    const input = `
+      const MyComponent = () => (
+        <div>
+          <img src="http://placekitten.com/200/300" />
+          <img src="http://example.com" />
+        </div>
+      );
+    `;
+
+    const expectedOutput = `
+      const MyComponent = () => (
+        <div>
+          <img src="http://placekitten.com/200/300" data-ot-ignore="" />
+          <img src="http://example.com" data-ot-ignore="" />
         </div>
       );
     `;

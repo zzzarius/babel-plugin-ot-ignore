@@ -2,10 +2,10 @@ const { transform: t } = require('@babel/core');
 const otIgnore = require('../babel-plugin-ot-ignore');
 
 const plainTransform = (code) =>
-t(code, {
-  presets: ['@babel/preset-react'],
-  configFile: false,
-}).code.trim();
+  t(code, {
+    presets: ['@babel/preset-react'],
+    configFile: false,
+  }).code.trim();
 describe('babel-plugin-ot-ignore defaults', () => {
   const transform = (code) =>
     t(code, {
@@ -159,7 +159,7 @@ describe('babel-plugin-ot-ignore otDataAttribute', () => {
         [
           otIgnore,
           {
-            otDataAttribute: "data-my-custom-attribute"
+            otDataAttribute: 'data-my-custom-attribute',
           },
         ],
       ],
@@ -196,7 +196,7 @@ describe('babel-plugin-ot-ignore otClassName', () => {
         [
           otIgnore,
           {
-            otClassName: "my-custom-class",
+            otClassName: 'my-custom-class',
           },
         ],
       ],

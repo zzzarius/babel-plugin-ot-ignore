@@ -1,6 +1,6 @@
 const { declare } = require('@babel/helper-plugin-utils')
 
-module.exports = declare((api, options) => {
+module.exports = declare((api) => {
   api.assertVersion(7)
   const { types: t } = api
 
@@ -48,55 +48,42 @@ module.exports = declare((api, options) => {
           return
         }
 
-        const hasNoOtherClasses = !openingElement.attributes?.some(
+        const classNameAttribute = openingElement.attributes?.findLast(
           (attr) => attr.name?.name === 'className'
         )
-
-        if (hasNoOtherClasses) {
+        if (!classNameAttribute) {
           const additionalAttribute = t.jsxAttribute(
             t.jsxIdentifier('className'),
             t.stringLiteral(otClassName)
           )
-          openingElement.attributes?.push(additionalAttribute)
+          openingElement.attributes.push(additionalAttribute)
           return
         }
 
-        const existingClassAttribute = openingElement.attributes.find(
-          (attr) => attr.name?.name === 'className'
-        )
-
-        // <img src="..." className />
-        if (!existingClassAttribute.value) {
-          existingClassAttribute.value = t.stringLiteral(otClassName)
+        if (classNameAttribute.value === null) {
+          classNameAttribute.value = t.stringLiteral(otClassName)
           return
         }
 
-        if (t.isJSXExpressionContainer(existingClassAttribute.value)) {
-          const quasis = existingClassAttribute.value?.expression?.quasis
-          if (!Array.isArray(quasis)) {
-            existingClassAttribute.value = t.stringLiteral(otClassName)
+        if (t.isStringLiteral(classNameAttribute.value)) {
+          if (classNameAttribute.value.value.includes(otClassName)) {
             return
           }
-          quasis.at(0).value.raw = [otClassName, quasis.at(0).value.raw].join(
-            ' '
+          classNameAttribute.value = t.stringLiteral(
+            [classNameAttribute.value.value, otClassName].filter(Boolean).join(' ')
           )
-          quasis.at(0).value.cooked = [
-            otClassName,
-            quasis.at(0).value.cooked
-          ].join(' ')
           return
         }
 
-        const existingClassAttributeValue = existingClassAttribute.value?.value
-        const hasOptanonClass =
-          existingClassAttributeValue?.includes(otClassName)
-        if (hasOptanonClass) {
-          return
+        if (t.isJSXExpressionContainer(classNameAttribute.value)) {
+          const originalClassNameExpression = classNameAttribute.value.expression
+          const newClassNameExpression = t.binaryExpression(
+            '+',
+            originalClassNameExpression,
+            t.stringLiteral(` ${otClassName}`)
+          )
+          classNameAttribute.value = t.jsxExpressionContainer(newClassNameExpression)
         }
-
-        const classes = existingClassAttributeValue.split(' ')
-        classes.push(otClassName)
-        existingClassAttribute.value.value = classes.join(' ').trim()
       }
     }
   }

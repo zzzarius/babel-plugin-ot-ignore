@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-ot-ignore",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "A Babel plugin thad adds configurable data-ot-ignore and className='optanon-category-C0001' to all React elements which have src attribute",
   "keywords": [
     "babel",

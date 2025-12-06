@@ -15,7 +15,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/zzzarius/babel-plugin-ot-ignore.git"
+    "url": "git+https://github.com/zzzarius/babel-plugin-ot-ignore.git"
   },
   "main": "./babel-plugin-ot-ignore.js",
   "scripts": {

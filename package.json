@@ -28,7 +28,7 @@
   "author": "Darius Zivertas",
   "license": "MIT",
   "dependencies": {
-    "@babel/helper-plugin-utils": "^7.22.5"
+    "@babel/helper-plugin-utils": "^8.0.1"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.0.0",

@@ -1,7 +1,5 @@
-const { declare } = require("@babel/helper-plugin-utils");
-
-module.exports = declare((api) => {
-  api.assertVersion(7);
+module.exports = (api) => {
+  api.assertVersion("^7.0.0 || ^8.0.0");
   const { types: t } = api;
 
   return {
@@ -92,4 +90,4 @@ module.exports = declare((api) => {
       },
     },
   };
-});
+};

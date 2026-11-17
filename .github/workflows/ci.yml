@@ -14,12 +14,12 @@ jobs:
       CI: true
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v7
 
-      - name: Use Node.js v23
-        uses: actions/setup-node@v3
+      - name: Use Node.js v24
+        uses: actions/setup-node@v7
         with:
-          node-version: "23"
+          node-version: "24"
 
       - name: Install dependencies
         run: npm install --include=dev --frozen-lockfile --non-interactive

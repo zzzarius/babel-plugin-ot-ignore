@@ -1,4 +1,4 @@
-const { transform: t } = require("@babel/core");
+const { transformSync: t } = require("@babel/core");
 const otIgnore = require("../babel-plugin-ot-ignore");
 
 const plainTransform = (code) =>
@@ -94,7 +94,7 @@ describe("babel-plugin-ot-ignore defaults", () => {
     expect(transform(input)).toBe(plainTransform(expectedOutput));
   });
 
-  test("Check if className expressions are working", () => {
+  test("Should not duplicate existing class and data attribute", () => {
     const input = `
       const MyComponent = () => (
         <div>

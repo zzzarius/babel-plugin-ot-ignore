@@ -19,7 +19,7 @@
   },
   "main": "./babel-plugin-ot-ignore.js",
   "scripts": {
-    "test": "jest --coverage",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage",
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
     "lint:dangerous": "biome lint --write --unsafe .",
@@ -27,16 +27,15 @@
   },
   "author": "Darius Zivertas",
   "license": "MIT",
-  "dependencies": {
-    "@babel/helper-plugin-utils": "^7.22.5"
-  },
   "devDependencies": {
-    "@biomejs/biome": "^2.5.13",
+    "@babel/core": "^8.1.2",
+    "@babel/preset-react": "^8.0.1",
+    "@biomejs/biome": "^2.6.8",
     "@types/jest": "^30.0.0",
-    "jest": "^30.0.4"
+    "jest": "^30.5.2"
   },
   "peerDependencies": {
-    "@babel/core": "^7.22.5",
-    "@babel/preset-react": "^7.22.5"
+    "@babel/core": "^7.22.5 || ^8.0.0",
+    "@babel/preset-react": "^7.22.5 || ^8.0.0"
   }
 }
